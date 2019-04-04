@@ -2,10 +2,8 @@ package Steps;
 
 import Util.DriveManager;
 import Util.TestProperties;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import org.openqa.selenium.WebDriver;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
@@ -24,6 +22,6 @@ public class BaseStep {
 
     @After
     public void tearDown(){
-        DriveManager.quitDriver();
+        //DriveManager.quitDriver();
     }
 }

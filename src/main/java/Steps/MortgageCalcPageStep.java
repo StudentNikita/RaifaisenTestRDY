@@ -1,9 +1,14 @@
 package Steps;
 
 import Pages.MortgageCalcPage;
+import Util.DriveManager;
+
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.junit.Assert;
+
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MortgageCalcPageStep {
     MortgageCalcPage mortgageCalcPage = new MortgageCalcPage();
@@ -17,6 +22,15 @@ public class MortgageCalcPageStep {
 
     @Then("Проверить, что ежемесячный платеж равен \"(.*)\"")
     public void stepCheckTheMonthPay(String expectedPay){
+        WebDriverWait wait = new WebDriverWait(DriveManager.getDriver(), 30);
+        wait.withMessage(String.format("Ожидалось значение [%s]", expectedPay))
+                .until((ExpectedCondition<Boolean>) driver -> {
+                    if (mortgageCalcPage.getMonthPay().equals(expectedPay)) {
+                        return true;
+                    }
+                    return false;
+                });
+
         Assert.assertEquals(String.format("Ежемесячный платеж должен быть равен - %s. А по факту равен - %s", expectedPay, mortgageCalcPage.getMonthPay()),
                 expectedPay, mortgageCalcPage.getMonthPay());
         System.out.println(String.format("Ежемесячный платеж: %s", mortgageCalcPage.getMonthPay()));
@@ -44,13 +58,13 @@ public class MortgageCalcPageStep {
     }
 
     @When("Выбираем город: \"(.*)\"")
-    public void stepSelectCity(String city){
-        mortgageCalcPage.selectCity(city);
+    public void stepSelectCity(String city) {
+     mortgageCalcPage.selectCity(city);
     }
 
     @When("Отмечаем чекбокс 'Знаю свою ипотечную программу'")
     public void stepСhooseMortgageProgrammeCheckbox(){
-        mortgageCalcPage.chooseMortgageProgrammeCheckbox(true);
+        mortgageCalcPage.chooseMortgageProgrammeCheckbox();
     }
 
     @When("Выбираем вид ипотечной программы: \"(.*)\"")
